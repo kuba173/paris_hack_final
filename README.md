@@ -1,6 +1,8 @@
-# Welcome to your Lovable project
+# TokenTale - Football Match Collectibles Platform
 
-## Project info
+## Project Overview
+
+TokenTale is a platform where football fans can participate in auctions for unique match-day collectible tokens using CHZ cryptocurrency. Each match creates two exclusive tokens, and the highest staker for each team wins their respective token, while other participants get their CHZ back.
 
 
 ##This project includes!!!!!!!!!!!!!!!:

@@ -64,7 +64,7 @@ const Index = () => {
           <div className="relative inline-block">
             <div className="absolute -inset-1 bg-gradient-to-r from-green-600 to-blue-600 rounded-lg blur opacity-25"></div>
             <h1 className="relative text-6xl font-extrabold mb-4 bg-gradient-to-r from-green-400 via-blue-500 to-purple-500 bg-clip-text text-transparent">
-              Win Exclusive Match Collectibles
+              Win Exclusive TokenTales
             </h1>
           </div>
           <p className="text-xl text-gray-200 max-w-3xl mx-auto mb-12 mt-8 leading-relaxed backdrop-blur-sm">

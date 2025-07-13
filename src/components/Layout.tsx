@@ -26,7 +26,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
               <div className="flex items-center space-x-8">
                 <div className="flex-shrink-0">
                   <h1 className="text-2xl font-bold bg-gradient-to-r from-green-400 to-blue-500 bg-clip-text text-transparent">
-                    Match Collectibles
+                    TokenTale
                   </h1>
                 </div>
                 <div className="hidden md:block">

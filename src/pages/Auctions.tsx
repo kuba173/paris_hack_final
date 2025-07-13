@@ -259,7 +259,7 @@ const Auctions = () => {
           Live Auctions
         </h1>
         <p className="text-xl text-gray-300">
-          Stake CHZ tokens to win exclusive match collectibles. The highest staker wins when the auction ends!
+          Stake CHZ tokens to win exclusive TokenTale. The highest staker wins when the auction ends!
         </p>
       </div>
 
