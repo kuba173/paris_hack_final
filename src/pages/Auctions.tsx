@@ -321,7 +321,7 @@ const Auctions = () => {
                               {a.team}
                             </h3>
                             <div className="flex flex-col items-center gap-1">
-                              <span className="text-[11px] text-gray-400">Highest bet</span>
+                              <span className="text-[11px] text-gray-400">Second highest better</span>
                               <div className="flex items-center gap-1">
                                 <TrendingUp className="w-3 h-3 text-green-400" />
                                 <span className="font-medium text-green-400 text-sm">{a.highestStake} CHZ</span>
