@@ -1,0 +1,93 @@
+// SPDX-License-Identifier: GPL-3.0
+pragma solidity ^0.8.17;
+
+contract MatchTokenAuction {
+
+    address public owner;
+
+    struct Auction {
+        uint256 matchId;
+        string team;
+        uint256 endTime;
+        address highestBidder;
+        uint256 highestStake;
+        bool finalized;
+    }
+// 1 eth === 100000000000000000000 wei
+    uint256 public auctionCount;
+    mapping(uint256 => Auction) public auctions;
+    mapping(uint256 => mapping(address => uint256)) public userStakes;
+
+    event AuctionCreated(uint256 auctionId, uint256 matchId, string team, uint256 endTime);
+    event Staked(address indexed user, uint256 auctionId, uint256 amount);
+    event AuctionFinalized(uint256 auctionId, address winner, uint256 amount);
+
+    modifier onlyOwner() {
+        require(msg.sender == owner, "Not authorized");
+        _;
+    }
+
+    constructor() {
+        owner = msg.sender;
+    }
+
+    function createAuction(uint256 matchId, string memory team, uint256 durationInSeconds) public onlyOwner {
+        uint256 endTime = block.timestamp + durationInSeconds;
+
+        auctions[auctionCount] = Auction({
+            matchId: matchId,
+            team: team,
+            endTime: endTime,
+            highestBidder: address(0),
+            highestStake: 0,
+            finalized: false
+        });
+// 0x2583d3a162A594e9B42A52505f683eE9b8bd8903
+        emit AuctionCreated(auctionCount, matchId, team, endTime);
+                auctionCount++;
+
+    }
+// 0xB056BDFd5F5d62C54e7e49eE9DF1b3b3B4BE9402
+    function stake(uint256 auctionId) public payable {
+        Auction storage a = auctions[auctionId];
+        require(block.timestamp < a.endTime, "Auction ended");
+        require(msg.value > 0, "Cannot stake 0");
+
+        userStakes[auctionId][msg.sender] += msg.value;
+
+        if (userStakes[auctionId][msg.sender] > a.highestStake) {
+            a.highestStake = userStakes[auctionId][msg.sender];
+            a.highestBidder = msg.sender;
+        }
+
+        emit Staked(msg.sender, auctionId, msg.value);
+    }
+
+    function finalizeAuction(uint256 auctionId) public {
+        Auction storage a = auctions[auctionId];
+        require(block.timestamp >= a.endTime, "Auction not ended");
+        require(!a.finalized, "Already finalized");
+
+        a.finalized = true;
+
+        // You can choose to transfer the ETH to the owner or another recipient
+        // For example, send highest stake to the owner:
+        // payable(owner).transfer(a.highestStake);
+
+        emit AuctionFinalized(auctionId, a.highestBidder, a.highestStake);
+    }
+
+    function getUserStake(uint256 auctionId, address user) public view returns (uint256) {
+        return userStakes[auctionId][user];
+    }
+
+    function getHighestStake(uint256 auctionId) public view returns (address, uint256) {
+        Auction memory a = auctions[auctionId];
+        return (a.highestBidder, a.highestStake);
+    }
+
+    // Owner can withdraw funds if desired
+    function withdraw() public onlyOwner {
+        payable(owner).transfer(address(this).balance);
+    }
+}
